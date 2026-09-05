@@ -239,14 +239,14 @@
 
     <h1>Messages</h1>
 
-    <?php foreach($messages as $message){
+    <?php /*foreach($messages as $message){
         echo "<pre>";
         echo 'Username: '. $message->chat . PHP_EOL;
         echo $message->sender .PHP_EOL;
         echo $message->body;
 
         echo "</pre>";
-    } ?>
+    } */?>
         
 
 

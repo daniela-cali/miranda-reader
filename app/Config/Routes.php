@@ -4,9 +4,38 @@ use CodeIgniter\Router\RouteCollection;
 
 /** @var RouteCollection $routes */
 
-$routes->get('register', '\App\Controllers\Auth\RegisterController::registerView');
-$routes->post('register', '\App\Controllers\Auth\RegisterController::registerAction');
-//$routes->get('/', 'ArchiveController::index');
-$routes->get('/', 'Home::index');
-
 service('auth')->routes($routes);
+
+
+//$routes->get('/', 'ArchiveController::index');
+$routes->get('/', 'HomeController::index');
+
+$routes->group('admin', ['filter' => 'group:superadmin,admin'], function($routes) {
+    /*
+     * Importazione Clienti 
+    $routes->get('importClienti', 'Admin\ImportClientiController::index');
+    $routes->post('importClienti', 'Admin\ImportClientiController::importClienti');
+    */
+
+    /**
+     * Impostazioni sito 
+     */
+    // $routes->get('settings', 'Admin\SettingsController::index');
+    // $routes->post('settings/save', 'Admin\SettingsController::save');
+
+    /**
+     * Gestione utenti — rotte per CRUD completo su utenti, con approvazione e eliminazione.
+     * Il filter 'group:superadmin,admin' assicura che solo gli amministratori possano accedere a queste rotte.
+     */
+    $routes->get('users',                'Admin\UsersController::index',       ['as' => 'users_index']);
+    $routes->get('users/(:num)',          'Admin\UsersController::show/$1',     ['as' => 'users_show']);
+    $routes->get('users/crea',           'Admin\UsersController::create',      ['as' => 'users_create']);
+    $routes->post('users',               'Admin\UsersController::store',       ['as' => 'users_store']);
+    $routes->get('users/modifica/(:num)', 'Admin\UsersController::edit/$1',    ['as' => 'users_edit']);
+    $routes->put('users/(:num)',          'Admin\UsersController::update/$1',  ['as' => 'users_update']);
+    $routes->get('users/elimina/(:num)',  'Admin\UsersController::delete/$1',  ['as' => 'users_delete']);
+
+});
+
+
+
