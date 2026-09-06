@@ -15,6 +15,7 @@
 	<!-- Custom styles for this template -->
 	<link href="<?=  base_url('css/dashboard.css') ?>" rel="stylesheet">
 	<link href="<?=  base_url('css/custom.css') ?>" rel="stylesheet">
+	<?= $this->renderSection('css') ?>
 </head>
 
 <body>

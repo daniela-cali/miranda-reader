@@ -1,0 +1,365 @@
+:root {
+    --bg:        #f5f4f0;
+    --surface:   #ffffff;
+    --border:    #e4e2dc;
+    --text-main: #1a1916;
+    --text-muted:#7a7670;
+    --accent:    #e85d3a;
+    --accent-lt: #fdf1ee;
+    --input-bg:  #faf9f7;
+    --shadow:    0 1px 3px rgba(26,25,22,.06), 0 4px 16px rgba(26,25,22,.06);
+    --radius:    10px;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; }
+
+
+  .page-wrap {
+    width: 100%;
+    max-width: 720px;
+  }
+
+  /* ── Header ── */
+  .page-header {
+    margin-bottom: 2rem;
+  }
+  .page-header .badge-pill {
+    display: inline-block;
+    font-family: 'Syne', sans-serif;
+    font-size: .68rem;
+    font-weight: 600;
+    letter-spacing: .12em;
+    text-transform: uppercase;
+    color: var(--accent);
+    background: var(--accent-lt);
+    border: 1px solid rgba(232,93,58,.18);
+    border-radius: 999px;
+    padding: .25rem .75rem;
+    margin-bottom: .85rem;
+  }
+  .page-header h1 {
+    font-family: 'Syne', sans-serif;
+    font-size: 1.65rem;
+    font-weight: 700;
+    line-height: 1.2;
+    color: var(--text-main);
+    margin: 0 0 .35rem;
+  }
+  .page-header p {
+    font-size: .9rem;
+    color: var(--text-muted);
+    margin: 0;
+  }
+
+  /* ── Card ── */
+  .form-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    box-shadow: var(--shadow);
+    overflow: hidden;
+  }
+
+  /* ── Section headers inside card ── */
+  .section-head {
+    display: flex;
+    align-items: center;
+    gap: .6rem;
+    padding: 1.4rem 1.75rem 1rem;
+    border-bottom: 1px solid var(--border);
+    margin-bottom: 0;
+  }
+  .section-head .dot {
+    width: 7px; height: 7px;
+    border-radius: 50%;
+    background: var(--accent);
+    flex-shrink: 0;
+  }
+  .section-head span {
+    font-family: 'Syne', sans-serif;
+    font-size: .78rem;
+    font-weight: 600;
+    letter-spacing: .09em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+  }
+
+  /* ── Form body ── */
+  .form-body {
+    padding: 1.5rem 1.75rem;
+  }
+  .form-body + .section-head {
+    border-top: 1px solid var(--border);
+  }
+
+  /* ── Row spacing ── */
+  .hf-row {
+    margin-bottom: 1.15rem;
+  }
+  .hf-row:last-child {
+    margin-bottom: 0;
+  }
+
+  /* ── Labels ── */
+  .col-form-label {
+    font-size: .85rem;
+    font-weight: 500;
+    color: var(--text-main);
+    padding-top: calc(.5rem + 1px);
+    padding-bottom: calc(.5rem + 1px);
+    line-height: 1.4;
+  }
+  .label-hint {
+    display: block;
+    font-size: .73rem;
+    font-weight: 400;
+    color: var(--text-muted);
+    margin-top: .1rem;
+  }
+
+  /* ── Inputs ── */
+  .form-control, .form-select {
+    background: var(--input-bg);
+    border: 1px solid var(--border);
+    border-radius: 7px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: .875rem;
+    color: var(--text-main);
+    padding: .5rem .8rem;
+    transition: border-color .18s, box-shadow .18s, background .18s;
+  }
+  .form-control:focus, .form-select:focus {
+    background: var(--surface);
+    border-color: var(--accent);
+    box-shadow: 0 0 0 3px rgba(232,93,58,.12);
+    outline: none;
+  }
+  .form-control::placeholder {
+    color: #bbb8b2;
+  }
+  .form-control.is-invalid {
+    border-color: #d93025;
+    box-shadow: 0 0 0 3px rgba(217,48,37,.10);
+  }
+
+  /* Input group addon */
+  .input-group-text {
+    background: var(--bg);
+    border: 1px solid var(--border);
+    border-right: none;
+    color: var(--text-muted);
+    font-size: .82rem;
+    border-radius: 7px 0 0 7px;
+  }
+  .input-group .form-control {
+    border-left: none;
+    border-radius: 0 7px 7px 0;
+  }
+  .input-group .form-control:focus {
+    border-left: 1px solid var(--accent);
+    border-radius: 0 7px 7px 0;
+    box-shadow: 0 0 0 3px rgba(232,93,58,.12);
+  }
+
+  /* Inline radio group */
+  .radio-row {
+    display: flex;
+    gap: .6rem;
+    flex-wrap: wrap;
+    padding-top: .3rem;
+  }
+  .radio-chip input[type="radio"] {
+    display: none;
+  }
+  .radio-chip label {
+    display: inline-flex;
+    align-items: center;
+    gap: .35rem;
+    cursor: pointer;
+    font-size: .84rem;
+    font-weight: 400;
+    color: var(--text-muted);
+    background: var(--input-bg);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: .38rem .8rem;
+    transition: all .15s;
+    user-select: none;
+  }
+  .radio-chip label::before {
+    content: '';
+    width: 13px; height: 13px;
+    border-radius: 50%;
+    border: 1.5px solid var(--border);
+    background: #fff;
+    flex-shrink: 0;
+    transition: all .15s;
+  }
+  .radio-chip input[type="radio"]:checked + label {
+    color: var(--accent);
+    border-color: var(--accent);
+    background: var(--accent-lt);
+    font-weight: 500;
+  }
+  .radio-chip input[type="radio"]:checked + label::before {
+    background: var(--accent);
+    border-color: var(--accent);
+    box-shadow: inset 0 0 0 3px #fff;
+  }
+
+  /* Toggle switch */
+  .form-switch-custom {
+    display: flex;
+    align-items: center;
+    gap: .65rem;
+    padding-top: .35rem;
+  }
+  .form-switch-custom .form-check-input {
+    width: 2.4em;
+    height: 1.3em;
+    cursor: pointer;
+    border-color: var(--border);
+    background-color: #e0ddd6;
+    background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='-4 -4 8 8'%3e%3ccircle r='3' fill='%23fff'/%3e%3c/svg%3e");
+    transition: background-color .2s, border-color .2s;
+    flex-shrink: 0;
+  }
+  .form-switch-custom .form-check-input:checked {
+    background-color: var(--accent);
+    border-color: var(--accent);
+  }
+  .form-switch-custom .form-check-input:focus {
+    box-shadow: 0 0 0 3px rgba(232,93,58,.14);
+    border-color: var(--accent);
+  }
+  .form-switch-custom .switch-label {
+    font-size: .85rem;
+    color: var(--text-main);
+    font-weight: 400;
+  }
+
+  /* Invalid feedback */
+  .invalid-feedback {
+    font-size: .77rem;
+    color: #d93025;
+    margin-top: .25rem;
+  }
+
+  /* ── Divider ── */
+  .card-divider {
+    border: none;
+    border-top: 1px solid var(--border);
+    margin: 0;
+  }
+
+  /* ── Footer / actions ── */
+  .form-footer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 1.1rem 1.75rem;
+    background: var(--bg);
+    border-top: 1px solid var(--border);
+    gap: 1rem;
+    flex-wrap: wrap;
+  }
+  .footer-note {
+    font-size: .78rem;
+    color: var(--text-muted);
+  }
+  .footer-actions {
+    display: flex;
+    gap: .6rem;
+  }
+
+  .btn-ghost {
+    font-family: 'DM Sans', sans-serif;
+    font-size: .84rem;
+    font-weight: 500;
+    color: var(--text-muted);
+    background: transparent;
+    border: 1px solid var(--border);
+    border-radius: 7px;
+    padding: .48rem 1.1rem;
+    cursor: pointer;
+    transition: all .15s;
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+  }
+  .btn-ghost:hover {
+    color: var(--text-main);
+    border-color: #c8c5be;
+    background: var(--surface);
+  }
+
+  .btn-primary-custom {
+    font-family: 'DM Sans', sans-serif;
+    font-size: .84rem;
+    font-weight: 500;
+    color: #fff;
+    background: var(--accent);
+    border: 1px solid transparent;
+    border-radius: 7px;
+    padding: .48rem 1.4rem;
+    cursor: pointer;
+    transition: all .15s;
+    display: inline-flex;
+    align-items: center;
+    gap: .4rem;
+    text-decoration: none;
+  }
+  .btn-primary-custom:hover {
+    background: #d44e2c;
+    color: #fff;
+  }
+  .btn-primary-custom svg {
+    width: 14px; height: 14px;
+    stroke: currentColor;
+    fill: none;
+    stroke-width: 2.2;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+  }
+
+  /* ── Success toast ── */
+  .toast-wrap {
+    position: fixed;
+    bottom: 1.5rem;
+    right: 1.5rem;
+    z-index: 999;
+  }
+  .toast-msg {
+    display: flex;
+    align-items: center;
+    gap: .6rem;
+    background: #1a1916;
+    color: #fff;
+    font-family: 'DM Sans', sans-serif;
+    font-size: .84rem;
+    font-weight: 400;
+    padding: .7rem 1.1rem;
+    border-radius: 8px;
+    box-shadow: 0 4px 20px rgba(0,0,0,.18);
+    opacity: 0;
+    transform: translateY(10px);
+    transition: opacity .25s, transform .25s;
+    pointer-events: none;
+  }
+  .toast-msg.show {
+    opacity: 1;
+    transform: translateY(0);
+    pointer-events: auto;
+  }
+  .toast-msg .check {
+    color: #4ade80;
+    font-size: 1rem;
+  }
+
+  /* ── Responsive ── */
+  @media (max-width: 575px) {
+    .form-body { padding: 1.25rem 1.1rem; }
+    .section-head { padding: 1.1rem 1.1rem .75rem; }
+    .form-footer { padding: 1rem 1.1rem; }
+    .col-form-label { padding-top: 0; margin-bottom: .3rem; }
+  }

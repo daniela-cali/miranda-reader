@@ -11,7 +11,6 @@ class ArchiveModel extends Model
 
     protected $allowedFields    = [];
     protected $returnType    = \App\Entities\Message::class;
-    protected $useTimestamps = true;
     protected $DBGroup = 'secondary';
 
 }
