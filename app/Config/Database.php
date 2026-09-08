@@ -28,7 +28,7 @@ class Database extends Config
     public array $default = [
         'hostname'     => 'localhost',
         'username'     => 'miranda_reader',
-        'password'     => 'MirandaReader2026!',
+        'password'     => 'EjabberdMirandaReader2026!',
         'database'     => 'miranda_reader',
         'DBDriver'     => 'MySQLi',
         'DBPrefix'     => '',
