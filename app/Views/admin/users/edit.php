@@ -1,7 +1,4 @@
 <?= $this->extend('layouts/main') ?>
-<?= $this->section('css') ?>
-  <link href="<?=  base_url('css/form.css') ?>" rel="stylesheet">
-<?= $this->endSection() ?>
 
 <?= $this->section('content') ?>
 
@@ -130,12 +127,12 @@
  
       <!-- ─── Footer ─── -->
       <div class="form-footer">
-        <span class="footer-note">Changes are saved to your workspace instantly.</span>
+        <span class="footer-note">Le modifiche hanno effetto immediato.</span>
         <div class="footer-actions">
-          <button type="button" class="btn-ghost" id="btnReset">Discard</button>
+          <button type="button" class="btn-ghost" id="btnReset">Scarta</button>
           <button type="submit" class="btn-primary-custom" id="btnSave">
             <svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>
-            Save changes
+            Salva
           </button>
         </div>
       </div>

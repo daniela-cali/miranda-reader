@@ -1,7 +1,4 @@
 <?= $this->extend('layouts/main') ?>
-<?= $this->section('css') ?>
-<link href="<?= base_url('css/form.css') ?>" rel="stylesheet">
-<?= $this->endSection() ?>
 
 <?= $this->section('content') ?>
 
@@ -74,6 +71,23 @@
 							<?php endforeach ?>
 						</select>
 					</div>
+				</div>
+				
+				<div class="row hf-row align-items-center">
+					<label for="password" class="col-sm-3 col-form-label">
+						Password
+					</label>
+					<div class="col-sm-9">
+						<input
+							type="password"
+							class="form-control"
+							id="password"
+							name="password"
+							autocomplete="new-password"
+							required 
+							/>
+					</div>
+				</div>
 
 				</div><!-- /form-body -->
 
@@ -136,14 +150,14 @@
 
 				<!-- ─── Footer ─── -->
 				<div class="form-footer">
-					<span class="footer-note">Changes are saved to your workspace instantly.</span>
+					<span class="footer-note">Le modifiche hanno effetto immediato.</span>
 					<div class="footer-actions">
-						<button type="button" class="btn-ghost" id="btnReset">Discard</button>
+						<button type="reset" class="btn-ghost" id="btnReset">Scarta</button>
 						<button type="submit" class="btn-primary-custom" id="btnSave">
 							<svg viewBox="0 0 24 24">
 								<polyline points="20 6 9 17 4 12" />
 							</svg>
-							Save changes
+							Salva
 						</button>
 					</div>
 				</div>

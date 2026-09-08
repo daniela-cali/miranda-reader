@@ -1,12 +1,181 @@
+/* ============================================================
+   app.css  —  foglio di stile unico
+   Ordine: dashboard (template Bootstrap) → custom → form
+   ============================================================ */
+
+/* ========== dashboard (template Bootstrap) ========== */
+body {
+  font-size: .875rem;
+}
+
+/*
+ * Sidebar
+ */
+
+.sidebar {
+  position: fixed;
+  top: 0;
+  /* rtl:raw:
+  right: 0;
+  */
+  bottom: 0;
+  /* rtl:remove */
+  left: 0;
+  z-index: 100; /* Behind the navbar */
+  padding: 48px 0 0; /* Height of navbar */
+  box-shadow: inset -1px 0 0 rgba(0, 0, 0, .1);
+}
+
+@media (max-width: 767.98px) {
+  .sidebar {
+    top: 5rem;
+  }
+}
+
+.sidebar-sticky {
+  position: relative;
+  top: 0;
+  height: calc(100vh - 48px);
+  padding-top: .5rem;
+  overflow-x: hidden;
+  overflow-y: auto; /* Scrollable contents if viewport is shorter than content. */
+}
+
+.sidebar .nav-link {
+  font-weight: 500;
+  color: #333;
+}
+
+.sidebar .nav-link .feather {
+  margin-right: 4px;
+  color: #727272;
+}
+
+.sidebar .nav-link.active {
+  color: #2470dc;
+}
+
+.sidebar .nav-link:hover .feather,
+.sidebar .nav-link.active .feather {
+  color: inherit;
+}
+
+.sidebar-heading {
+  font-size: .75rem;
+  text-transform: uppercase;
+}
+
+/*
+ * Navbar
+ */
+
+.navbar-brand {
+  padding-top: .75rem;
+  padding-bottom: .75rem;
+  font-size: 1rem;
+  background-color: rgba(0, 0, 0, .25);
+  box-shadow: inset -1px 0 0 rgba(0, 0, 0, .25);
+}
+
+.navbar .navbar-toggler {
+  top: .25rem;
+  right: 1rem;
+}
+
+.navbar .form-control {
+  padding: .75rem 1rem;
+  border-width: 0;
+  border-radius: 0;
+}
+
+.form-control-dark {
+  color: #fff;
+  background-color: rgba(255, 255, 255, .1);
+  border-color: rgba(255, 255, 255, .1);
+}
+
+.form-control-dark:focus {
+  border-color: transparent;
+  box-shadow: 0 0 0 3px rgba(255, 255, 255, .25);
+}
+
+
+/* ========== custom ========== */
+/*
+ * Globals
+ */
+
+
+/* Custom default button */
+.btn-secondary,
+.btn-secondary:hover,
+.btn-secondary:focus {
+  color: #333;
+  text-shadow: none;
+  /* Prevent inheritance from `body` */
+}
+
+
+span.author {
+  color: #4b42f5;
+}
+
+/* =========================================================
+  Modalità ospite: blur dell'app + modal di login in primo piano
+  ========================================================= */
+
+/* Sfoca l'intera app quando l'utente non è autenticato */
+body.guest-mode .app-wrapper {
+  filter: blur(6px);
+  pointer-events: none;
+  user-select: none;
+}
+
+/* Header scuro del modal di login */
+#loginModal .modal-header {
+  background-color: #343a40;
+  color: #fff;
+}
+
+/* Logo nel header del modal */
+#loginModal .modal-header img {
+  max-height: 48px;
+  width: auto;
+}
+
+
+/* Toggle password dentro un campo con etichetta flottante (form-floating) */
+.form-floating.has-toggle > .form-control {
+  padding-right: 3rem;
+}
+
+.form-floating.has-toggle > .toggle-password {
+  position: absolute;
+  top: 0;
+  right: 0;
+  height: 100%;
+  padding: 0 0.9rem;
+  border: 0;
+  background: transparent;
+  color: #6c757d;
+  z-index: 5;
+}
+
+.form-floating.has-toggle > .toggle-password:hover {
+  color: #212529;
+}
+
+/* ========== form (design system pagine utenti) ========== */
 :root {
     --bg:        #f5f4f0;
     --surface:   #ffffff;
     --border:    #e4e2dc;
     --text-main: #1a1916;
     --text-muted:#7a7670;
-    --accent:    #e85d3a;
-    --accent-lt: #fdf1ee;
+    --accent:    #0b98d6;
+    --accent-lt: #eaf6fb;
     --input-bg:  #faf9f7;
+    --brand-blue: #0b98d6;   /* stesso blu della favicon / logo */
     --shadow:    0 1px 3px rgba(26,25,22,.06), 0 4px 16px rgba(26,25,22,.06);
     --radius:    10px;
   }
@@ -32,7 +201,7 @@
     text-transform: uppercase;
     color: var(--accent);
     background: var(--accent-lt);
-    border: 1px solid rgba(232,93,58,.18);
+    border: 1px solid rgba(11,152,214,.18);
     border-radius: 999px;
     padding: .25rem .75rem;
     margin-bottom: .85rem;
@@ -131,7 +300,7 @@
   .form-control:focus, .form-select:focus {
     background: var(--surface);
     border-color: var(--accent);
-    box-shadow: 0 0 0 3px rgba(232,93,58,.12);
+    box-shadow: 0 0 0 3px rgba(11,152,214,.12);
     outline: none;
   }
   .form-control::placeholder {
@@ -151,14 +320,18 @@
     font-size: .82rem;
     border-radius: 7px 0 0 7px;
   }
-  .input-group .form-control {
+  /* input con addon a SINISTRA (icona prefisso) */
+  .input-group > .form-control:not(:first-child) {
     border-left: none;
     border-radius: 0 7px 7px 0;
   }
-  .input-group .form-control:focus {
+  .input-group > .form-control:not(:first-child):focus {
     border-left: 1px solid var(--accent);
-    border-radius: 0 7px 7px 0;
-    box-shadow: 0 0 0 3px rgba(232,93,58,.12);
+    box-shadow: 0 0 0 3px rgba(11,152,214,.12);
+  }
+  /* input con addon a DESTRA (toggle password) */
+  .input-group > .form-control:not(:last-child) {
+    border-radius: 7px 0 0 7px;
   }
 
   /* Inline radio group */
@@ -229,7 +402,7 @@
     border-color: var(--accent);
   }
   .form-switch-custom .form-check-input:focus {
-    box-shadow: 0 0 0 3px rgba(232,93,58,.14);
+    box-shadow: 0 0 0 3px rgba(11,152,214,.14);
     border-color: var(--accent);
   }
   .form-switch-custom .switch-label {
@@ -310,7 +483,7 @@
     text-decoration: none;
   }
   .btn-primary-custom:hover {
-    background: #d44e2c;
+    background: #0a7fa2;
     color: #fff;
   }
   .btn-primary-custom svg {

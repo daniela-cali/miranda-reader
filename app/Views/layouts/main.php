@@ -9,19 +9,29 @@
 	<!-- Bootstrap core CSS -->
 	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
 
+	<!-- Bootstrap Icons 1.13.1 -->
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.css">
+	<link rel="icon" href="<?= base_url('favicon.ico') ?>" sizes="any">
+	<link rel="icon" type="image/png" sizes="32x32" href="<?= base_url('images/favicon-32.png') ?>">
+	<link rel="icon" type="image/png" sizes="16x16" href="<?= base_url('images/favicon-16.png') ?>">
+	<link rel="apple-touch-icon" href="<?= base_url('images/apple-touch-icon.png') ?>">
 
 
 
-	<!-- Custom styles for this template -->
-	<link href="<?=  base_url('css/dashboard.css') ?>" rel="stylesheet">
-	<link href="<?=  base_url('css/custom.css') ?>" rel="stylesheet">
+
+	<!-- Foglio di stile unico -->
+	<link href="<?= base_url('css/app.css') ?>" rel="stylesheet">
 	<?= $this->renderSection('css') ?>
 </head>
 
 <body>
 	<div class = 'app-wrapper'>
 		<header class="navbar navbar-dark sticky-top bg-dark flex-md-nowrap p-0 shadow">
-			<a class="navbar-brand col-md-3 col-lg-2 me-0 px-3" href="#">Miranda Reader</a>
+		<a class="navbar-brand col-md-3 col-lg-2 me-0 px-3 d-flex align-items-center gap-2" href="#">
+    		<img src="<?= base_url('images/logo-mark-80.webp') ?>" alt="" width="61" height="30">
+    		Miranda Reader
+		</a>
+
 			<button class="navbar-toggler position-absolute d-md-none collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#sidebarMenu" aria-controls="sidebarMenu" aria-expanded="false" aria-label="Toggle navigation">
 				<span class="navbar-toggler-icon"></span>
 			</button>
@@ -44,32 +54,30 @@
 						<ul class="nav flex-column">
 							<li class="nav-item">
 								<a class="nav-link active" aria-current="page" href="#">
-									<span data-feather="home"></span>
+									<i class="bi bi-house"></i>
 									Dashboard
 								</a>
 							</li>
 							<li class="nav-item">
 								<a class="nav-link" href="#">
-									<span data-feather="message-circle"></span>
+									<i class="bi bi-chat"></i>
 									Chat Viewer
 								</a>
 							</li>
 
 							<li class="nav-item">
 								<a class="nav-link" href="<?= route_to('users_index') ?>">
-									<span data-feather="users"></span>
+									<i class="bi bi-people"></i>
 									Users
 								</a>
 							</li>
 							<li class="nav-item">
 								<a class="nav-link" href="#">
-									<span data-feather="bar-chart-2"></span>
 									Reports
 								</a>
 							</li>
 							<li class="nav-item">
 								<a class="nav-link" href="#">
-									<span data-feather="layers"></span>
 									Integrations
 								</a>
 							</li>
@@ -84,7 +92,7 @@
 						<ul class="nav flex-column mb-2">
 							<li class="nav-item">
 								<a class="nav-link" href="#">
-									<span data-feather="file-text"></span>
+									
 									Current month
 								</a>
 							</li>
@@ -112,7 +120,7 @@
 
 				<main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
 					<div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
-						<h1 class="h2">Dashboard</h1>
+						<h1 class="h2"><?= $title ?></h1>
 						<div class="btn-toolbar mb-2 mb-md-0">
 							<div class="btn-group me-2">
 								<button type="button" class="btn btn-sm btn-outline-secondary">Share</button>
@@ -142,8 +150,42 @@
 	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.min.js" integrity="sha384-cVKIPhGWiC2Al4u+LWgxfKTRIcfu0JTxR+EQDz/bgldoEyl4H0zUF0QKbrJ0EcQF" crossorigin="anonymous"></script>
 
 	<script src="https://cdn.jsdelivr.net/npm/chart.js@2.9.4/dist/Chart.min.js" integrity="sha384-zNy6FEbO50N+Cg5wap8IKA4M/ZnLJgzc6w2NqACZaK0u0FXfOWRRJOnQtpZun8ha" crossorigin="anonymous"></script>
-	<!-- Feather Icons -->
-	<script src="https://cdn.jsdelivr.net/npm/feather-icons/dist/feather.min.js"></script>
+	<!-- Feather Icons 
+	<script src="https://cdn.jsdelivr.net/npm/feather-icons/dist/feather.min.js"></script> -->
+	<script>
+    document.addEventListener("DOMContentLoaded", () => {
+        document.querySelectorAll('input[type="password"]').forEach((input) => {
+            const floating = input.closest('.form-floating');
+
+            const toggleBtn = document.createElement('button');
+            toggleBtn.type = 'button';
+            toggleBtn.className = 'btn toggle-password';
+            toggleBtn.innerHTML = '<i class="bi bi-eye"></i>';
+
+            if (floating) {
+                // LOGIN: bottone assoluto dentro il wrapper con etichetta flottante
+                floating.classList.add('has-toggle');
+                floating.appendChild(toggleBtn);
+            } else {
+                // CREATE: input-group classico (funziona benissimo in 5.0.2)
+                const group = document.createElement('div');
+                group.className = 'input-group';
+                input.parentNode.insertBefore(group, input);
+                group.appendChild(input);
+                toggleBtn.classList.add('btn-outline-secondary');
+                group.appendChild(toggleBtn);
+            }
+
+            toggleBtn.addEventListener('click', () => {
+                const isPassword = input.type === 'password';
+                input.type = isPassword ? 'text' : 'password';
+                const icon = toggleBtn.querySelector('i');
+                icon.classList.toggle('bi-eye', !isPassword);
+                icon.classList.toggle('bi-eye-slash', isPassword);
+            });
+        });
+    });
+</script>
 	<?= $this->renderSection('scripts') ?>
 	
 </body>

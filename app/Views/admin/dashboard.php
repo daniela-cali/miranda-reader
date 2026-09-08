@@ -51,11 +51,11 @@
 
                 <!-- Header scuro con logo e nome dell'applicazione -->
                 <div class="modal-header">
-                    <img src="<?= setting('SiteConfig.logoPath') ?>"
-                        alt="<?= esc(setting('SiteConfig.siteName')) ?>"
-                        class="me-3">
+                    <img src="<?= base_url('images/logo-mark-80.webp') ?>"
+                    alt="<?= esc(setting('SiteConfig.siteName')) ?>"
+                    width="74" height="36" class="me-3">
                     <h5 class="modal-title mb-0" id="loginModalLabel">
-                        <?= esc(setting('SiteConfig.siteName')) ?> — Accesso
+                        <?= esc(setting('SiteConfig.siteName')) ?> Accesso
                     </h5>
                 </div>
 
@@ -77,7 +77,7 @@
             // così non viene colpito dal filter:blur applicato all'app-wrapper
             document.body.appendChild(document.getElementById('loginModal'));
 
-            // Aggiunge la classe che applica il filtro blur all'app-wrapper via custom.css
+            // Aggiunge la classe che applica il filtro blur all'app-wrapper via app.css
             document.body.classList.add('guest-mode');
             console.log('aggiunto classe al body');
 
