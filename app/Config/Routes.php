@@ -8,7 +8,7 @@ service('auth')->routes($routes);
 
 
 //$routes->get('/', 'ArchiveController::index');
-$routes->get('/', 'HomeController::index');
+$routes->get('/', 'HomeController::index', ['as'=> 'dashboard']);
 
 $routes->group('admin', ['filter' => 'group:superadmin,admin'], function($routes) {
     /*

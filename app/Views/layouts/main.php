@@ -27,7 +27,7 @@
 <body>
 	<div class = 'app-wrapper'>
 		<header class="navbar navbar-dark sticky-top bg-dark flex-md-nowrap p-0 shadow">
-		<a class="navbar-brand col-md-3 col-lg-2 me-0 px-3 d-flex align-items-center gap-2" href="#">
+		<a class="navbar-brand col-md-3 col-lg-2 me-0 px-3 d-flex align-items-center gap-2" href="<?= route_to('dashboard') ?>">
     		<img src="<?= base_url('images/logo-mark-80.webp') ?>" alt="" width="61" height="30">
     		Miranda Reader
 		</a>
@@ -35,7 +35,7 @@
 			<button class="navbar-toggler position-absolute d-md-none collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#sidebarMenu" aria-controls="sidebarMenu" aria-expanded="false" aria-label="Toggle navigation">
 				<span class="navbar-toggler-icon"></span>
 			</button>
-			<input class="form-control form-control-dark w-100" type="text" placeholder="Search" aria-label="Search">
+			<input class="form-control form-control-dark w-100" type="text" placeholder="Cerca" aria-label="Cerca">
 			<div class="navbar-nav">
 				<div class="nav-item text-nowrap">
 					<?php if (auth()->loggedIn()): ?>
@@ -53,7 +53,7 @@
 					<div class="position-sticky pt-3">
 						<ul class="nav flex-column">
 							<li class="nav-item">
-								<a class="nav-link active" aria-current="page" href="#">
+								<a class="nav-link active" data-nav="Dashboard" aria-current="page" href="<?= route_to('dashboard') ?>">
 									<i class="bi bi-house"></i>
 									Dashboard
 								</a>
@@ -71,50 +71,15 @@
 									Users
 								</a>
 							</li>
-							<li class="nav-item">
-								<a class="nav-link" href="#">
-									Reports
-								</a>
-							</li>
-							<li class="nav-item">
-								<a class="nav-link" href="#">
-									Integrations
-								</a>
-							</li>
+
 						</ul>
 
 						<h6 class="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-1 text-muted">
 							<span>Saved reports</span>
-							<a class="link-secondary" href="#" aria-label="Add a new report">
-								<span data-feather="plus-circle"></span>
+							<a class="link-secondary" href="#" aria-label="Nuovo Report">
+							<i class="bi bi-plus-circle"></i>
 							</a>
 						</h6>
-						<ul class="nav flex-column mb-2">
-							<li class="nav-item">
-								<a class="nav-link" href="#">
-									
-									Current month
-								</a>
-							</li>
-							<li class="nav-item">
-								<a class="nav-link" href="#">
-									<span data-feather="file-text"></span>
-									Last quarter
-								</a>
-							</li>
-							<li class="nav-item">
-								<a class="nav-link" href="#">
-									<span data-feather="file-text"></span>
-									Social engagement
-								</a>
-							</li>
-							<li class="nav-item">
-								<a class="nav-link" href="#">
-									<span data-feather="file-text"></span>
-									Year-end sale
-								</a>
-							</li>
-						</ul>
 					</div>
 				</nav>
 
@@ -123,16 +88,15 @@
 						<h1 class="h2"><?= $title ?></h1>
 						<div class="btn-toolbar mb-2 mb-md-0">
 							<div class="btn-group me-2">
-								<button type="button" class="btn btn-sm btn-outline-secondary">Share</button>
-								<button type="button" class="btn btn-sm btn-outline-secondary">Export</button>
+								<button type="button" class="btn btn-sm btn-outline-secondary">Condividi</button>
+								<button type="button" class="btn btn-sm btn-outline-secondary">Esporta</button>
 							</div>
 							<button type="button" class="btn btn-sm btn-outline-secondary dropdown-toggle">
-								<span data-feather="calendar"></span>
-								This week
+								<i class="bi bi-calendar"></i>
+								Questa settimana
 							</button>
 						</div>
 					</div>
-					
 					<?= $this->renderSection('content') ?>
 					<?= $this->renderSection('charts') ?>
 					
@@ -184,6 +148,18 @@
                 icon.classList.toggle('bi-eye-slash', isPassword);
             });
         });
+
+		document.querySelectorAll('a.nav-link').forEach((navLink)=>{
+			//Rimuovo la classe active da tutti i link
+			navLink.classList.remove('active');
+			//Recupero l'href del link e l'url attuale
+			hrefNavLink = navLink.href;
+			urlPosition = window.location.href;
+			//Li confronto, se sono uguali allora assegno active
+			if(urlPosition == hrefNavLink) {
+				navLink.classList.add('active');
+			}
+		});
     });
 </script>
 	<?= $this->renderSection('scripts') ?>
