@@ -6,8 +6,7 @@
 
 	<!-- Page header -->
 	<div class="page-header">
-		<div class="badge-pill">Settings</div>
-		<h1>Account &amp; Profilo</h1>
+		<div class="badge-pill">Account &amp; Profilo</div>
 		<p>Dettagli utente, gruppi e collegamento all'utente di Miranda.</p>
 	</div>
 
@@ -18,7 +17,7 @@
 			<div class="dot"></div>
 			<span>Account</span>
 		</div>
-		<form id="mainForm" action="<?= route_to('users_store') ?>" method="post" novalidate>
+		<form id="mainForm" action="<?= route_to('users_store') ?>" method="post" >
 			<div class="form-body">
 
 				<!-- Full name -->
@@ -67,8 +66,8 @@
 							id="ejabberd_nick"
 							name="ejabberd_nick"
 							>
-							<?php foreach($ejabberdUsers as $user):?>
-								<option value="<?= $user->username ?>"> <?= $user->username ?></option>
+							<?php foreach($ejabberdUsers as $ejuser):?>
+								<option value="<?= $ejuser->username ?>"> <?= $ejuser->username ?></option>
 							<?php endforeach ?>
 						</select>
 					</div>

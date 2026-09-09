@@ -45,16 +45,6 @@
                                     <i class="bi bi-pencil"></i> Modifica
                                 </a>
                             </li>
-                            <?php if (isset($person_check)): ?>
-                                <li>
-                                    <a class="dropdown-item text-success"
-                                        href="<?= site_url('utenti/approva/' . $utente->id) ?>"
-                                        onclick="return confirm('Approvare questo utente?')">
-                                        <i class="bi bi-person-check"></i> Approva
-                                    </a>
-                                </li>
-                                <?php unset($person_check); ?>
-                            <?php endif; ?>
                             <li><hr class="dropdown-divider"></li>
                             <li>
                                 <a class="dropdown-item text-danger"

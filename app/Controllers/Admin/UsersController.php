@@ -42,7 +42,7 @@ class UsersController extends BaseController
             ->find($id);
 
         if (!$user) {
-            return redirect()->to(url_to('users_index'))->with('error', 'Utente non trovato.');
+            return redirect()->to(url_to('users_index'))->with('error', 'Utente id '. $id.' non trovato.');
         }
 
         $data = [
@@ -68,6 +68,59 @@ class UsersController extends BaseController
         return view('admin/users/create', $data);
     }
 
+    public function edit($id)
+    {
+        $users = auth()->getProvider();
+        $user = $users->findById($id);
+
+        if ($user === null) {
+           return redirect()->route('users_index')->with('error', 'Utente con id ' . $id . ' non trovato');
+        }
+        $ejabberUsers = (new EjabberdUsersModel())->findAll();
+        $data = [
+            'title' => 'Modifica utente: '. $user->username,
+            'user' => $user,
+            'allGroups'      => config('AuthGroups')->groups,
+            'ejabberdUsers' => $ejabberUsers,
+        ];
+        return view('admin/users/edit', $data);
+
+    }
+
+
+    public function update(int $id)
+    {
+        $users = auth()->getProvider();
+        $post  = $this->request->getPost();
+        //dd($post);
+        
+
+        $user = $users->findById($id);
+
+        if ($user === null) {
+           return redirect()->route('users_index')->with('error', 'Utente con id ' . $id . ' non trovato');
+        }
+        
+        // Validazione con rules nel controller
+        $rules = $this->getValidationRules($id);
+        if (!$this->validate($rules)){
+            return redirect()->back()
+                ->withInput() //Ripopola i campi input con old()
+                ->with('errors', $users->errors()); 
+        }
+        $data = [
+            'username' => $post['username'],
+            'email' => $post['email'],
+            'ejabberd_nick' => $post['ejabberd_nick'],
+            'password' => $post['password'],
+        ];
+        // Validazione OK posso aggiornare l'utente
+        $user->fill($data);
+        //dd($user);
+
+        $users->save($user);
+        return redirect()->route('users_show', [$id])->with('success', 'Utente aggiornato correttamente');
+    }
     // public function edit($id)
     // {
     //     $users = auth()->getProvider();
@@ -100,11 +153,6 @@ class UsersController extends BaseController
 
     /**
      * store() — crea un nuovo utente da backoffice (POST /utenti/).
-     *
-     * Shield tiene separati i dati base (username → tabella `users`) dalle
-     * credenziali di accesso (email + password hashata → tabella `auth_identities`).
-     * Assegnando email e password sull'entità prima del save(), Shield provvede
-     * a creare entrambi i record in automatico.
      */
     public function store()
     {
@@ -122,16 +170,15 @@ class UsersController extends BaseController
         // Validazione OK posso creare l'utente
 
         $user = new User([
-            'username' => $data['username'],
-            'email' => $data['email'],
-            'ejabberd_nick' => $data['ejabberd_nick'],
-            'password' => $data['password'],
+            'username' => $post['username'],
+            'email' => $post['email'],
+            'ejabberd_nick' => $post['ejabberd_nick'],
+            'password' => $post['password'],
         ]);
 
         $users->save($user);
         $id = $users->getInsertID();
         return redirect()->route('users_show', [$id])->with('success', 'Utente creato correttamente');
-
     }
         
 

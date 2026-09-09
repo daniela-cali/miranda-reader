@@ -5,8 +5,7 @@
 
 	<!-- Page header -->
 	<div class="page-header">
-		<div class="badge-pill">Settings</div>
-		<h1>Account &amp; Profilo</h1>
+	<div class="badge-pill">Account &amp; Profilo</div>
 		<p>Dettagli utente, gruppi e collegamento all'utente di Miranda.</p>
 	</div>
 
@@ -90,33 +89,7 @@
 
 		<hr class="card-divider" />
 
-		<!-- ─── Section 3: Permessi ─── -->
-		<div class="section-head">
-			<div class="dot"></div>
-			<span>Permessi</span>
-		</div>
 
-		<div class="form-body">
-
-		<div class="row hf-row align-items-start">
-			<div class="list-group">
-				<?php foreach ($allPermissions as $permission =>$permissionDescription): ?>
-
-					<label class="list-group-item">
-						<input class="form-check-input me-1"
-							type="checkbox"
-							disabled
-							<?= $user->hasPermission($permission) ? 'checked' : '' ?> />
-						<?= $permission.': '.esc($permissionDescription)  ?> 
-					</label>
-				<?php endforeach ?>
-				
-			</div>
-
-
-		</div>
-
-		</div><!-- /form-body -->
 
 			
 	</div><!-- /form-card -->
