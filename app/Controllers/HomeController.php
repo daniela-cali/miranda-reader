@@ -6,6 +6,6 @@ class HomeController extends BaseController
 {
     public function index(): string
     {
-        return view('admin/dashboard', ['title'=> 'Dashboard']);
+        return view('admin/dashboard', ['title'=> 'Dashboard', 'needsToolbar'=> true]);
     }
 }
