@@ -42,7 +42,7 @@ return [
     'is_unique'             => 'Il campo "{field}" deve contenere un valore univoco.',
     'less_than'             => 'Il campo "{field}" deve contenere un numero minore di {param}.',
     'less_than_equal_to'    => 'Il campo "{field}" deve contenere un numero minore o uguale a {param}.',
-    'matches'               => 'Il campo "{field}" non corrispondente al campo "{param}" .',
+    'matches'               => 'Il campo "{field}" non corrisponde al campo "{param}" .',
     'max_length'            => 'Il campo "{field}" non può superare i {param} caratteri.',
     'min_length'            => 'Il campo "{field}" deve essere almeno di {param} caratteri.',
     'not_equals'            => 'Il campo "{field}" non può essere: {param}.',

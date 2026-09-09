@@ -97,6 +97,21 @@
 							</button>
 						</div>
 					</div>
+					<!-- Visualizzazione errori centralizzata per tutte le pagine -->
+					<?php if (session('errors')): ?>
+						<div class="alert alert-danger">
+							<ul class="mb-0">
+								<?php foreach (session('errors') as $error): ?>
+									<li><?= esc($error) ?></li>
+								<?php endforeach ?>
+							</ul>
+						</div>
+					<?php endif ?>
+
+					<?php if (session('success')): ?>
+						<div class="alert alert-success"><?= esc(session('success')) ?></div>
+					<?php endif ?>
+
 					<?= $this->renderSection('content') ?>
 					<?= $this->renderSection('charts') ?>
 					

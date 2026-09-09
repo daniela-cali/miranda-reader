@@ -22,7 +22,6 @@
     </div>
 <?php endif ?>
 
-<!-- Messaggio di successo (es. dopo magic link) -->
 <?php if (session('message') !== null) : ?>
     <div class="alert alert-success" role="alert"><?= esc(session('message')) ?></div>
 <?php endif ?>

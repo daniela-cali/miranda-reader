@@ -18,7 +18,6 @@
 			<div class="dot"></div>
 			<span>Account</span>
 		</div>
-
 		<form id="mainForm" action="<?= route_to('users_store') ?>" method="post" novalidate>
 			<div class="form-body">
 
@@ -30,6 +29,7 @@
 					<div class="col-sm-9">
 						<input 
 							type="text" 
+							value="<?= esc(old('username')) ?>"
 							class="form-control" 
 							id="username"
 							name="username"
@@ -46,6 +46,7 @@
 					<div class="col-sm-9">
 						<input
 							type="email"
+							value="<?= esc(old('email')) ?>"
 							class="form-control"
 							id="email"
 							name="email"
@@ -72,7 +73,7 @@
 						</select>
 					</div>
 				</div>
-				
+				<!-- Password -->
 				<div class="row hf-row align-items-center">
 					<label for="password" class="col-sm-3 col-form-label">
 						Password
@@ -89,9 +90,27 @@
 					</div>
 				</div>
 
+				<!-- Conferma Password -->
+				<div class="row hf-row align-items-center">
+					<label for="password_conf" class="col-sm-3 col-form-label">
+						Conferma Password
+					</label>
+					<div class="col-sm-9">
+						<input
+							type="password"
+							class="form-control"
+							id="password_conf"
+							name="password_conf"
+							autocomplete="new-password"
+							required 
+							/>
+					</div>
+				</div>
+
 				</div><!-- /form-body -->
 
 				<hr class="card-divider" />
+
 				<!-- ─── Section 2: Gruppi ─── -->
 				<div class="section-head">
 					<div class="dot"></div>
@@ -113,40 +132,8 @@
 							<?php endforeach ?>
 
 						</div>
-
-
 					</div>
-
 				</div><!-- /form-body -->
-
-				<!-- ─── Section 3: Permessi ─── -->
-				<div class="section-head">
-					<div class="dot"></div>
-					<span>Permessi</span>
-				</div>
-
-				<div class="form-body">
-
-					<div class="row hf-row align-items-start">
-						<div class="list-group">
-							<?php foreach ($allPermissions as $permission => $permissionDescription): ?>
-
-								<label class="list-group-item">
-									<input class="form-check-input me-1"
-										type="checkbox" />
-									<?= $permission . ': ' . esc($permissionDescription)  ?>
-								</label>
-							<?php endforeach ?>
-
-						</div>
-
-
-					</div>
-
-				</div><!-- /form-body -->
-
-				<hr class="card-divider" />
-
 
 				<!-- ─── Footer ─── -->
 				<div class="form-footer">

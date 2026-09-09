@@ -109,92 +109,58 @@ class UsersController extends BaseController
     public function store()
     {
         $users = auth()->getProvider();
-        $post  = $this->request->getPost();
-        //dd($post);
+        $data  = $this->request->getPost();
 
-        // ------------------------------------------------------------------
-        // Passo 1 — Validazione.
-        // Verifichiamo formato e unicità dello username prima di toccare il DB.
-        // La regola `strong_password` è registrata da Shield (già usata in
-        // changePassword). Per l'email lasciamo che Shield restituisca l'errore
-        // se risulta duplicata in auth_identities (evita una query ridondante).
-        // ------------------------------------------------------------------
-        // $rules = [
-        //     'username' => [
-        //         'label' => 'Username',
-        //         'rules' => 'required|min_length[3]|max_length[30]|is_unique[users.username]',
-        //     ],
-        //     'email' => [
-        //         'label' => 'Email',
-        //         'rules' => 'required|valid_email',
-        //     ],
-        //     'password' => [
-        //         'label' => 'Password',
-        //         'rules' => 'required|min_length[8]|strong_password',
-        //     ],
-        // ];
-
-        // if (!$this->validate($rules)) {
-        //     return redirect()->back()->withInput()
-        //         ->with('errors', $this->validator->getErrors());
-        // }
-
-        // ------------------------------------------------------------------
-        // Passo 2 — Creazione entità User.
-        // Lo username va nel costruttore; email e password si assegnano
-        // tramite i setter dell'entità, che segnalano internamente a Shield
-        // che l'identità email_password va creata insieme all'utente.
-        // ------------------------------------------------------------------
-        $user           = new User(['username' => $post['username']]);
-        $user->email    = $post['email'];
-        //$user->password = $post['password']; // Shield lo hasha con bcrypt prima del salvataggio
-        dd($user);
-        // ------------------------------------------------------------------
-        // Passo 3 — Salvataggio via Shield UserModel.
-        // save() scrive sia in `users` che in `auth_identities` in modo atomico.
-        // Se fallisce (es. email già presente) restituisce false e popola errors().
-        // ------------------------------------------------------------------
-        if (!$users->save($user)) {
-            return redirect()->back()->withInput()
-                ->with('errors', $users->errors());
+        // Validazione con rules nel controller
+        $rules = $this->getValidationRules(null);
+        if (!$this->validate($rules)){
+            return redirect()->back()
+                ->withInput() //Ripopola i campi input con old()
+                ->with('errors', $users->errors()); 
         }
 
-        
-        $newUser = $users->find($users->getInsertID());
+        // Validazione OK posso creare l'utente
 
-        
+        $user = new User([
+            'username' => $data['username'],
+            'email' => $data['email'],
+            'ejabberd_nick' => $data['ejabberd_nick'],
+            'password' => $data['password'],
+        ]);
 
-        // ------------------------------------------------------------------
-        // Passo 6 — Assegnazione gruppi.
-        // Su un nuovo utente non serve la DELETE preventiva (non ha ancora gruppi),
-        // ma usiamo lo stesso approccio di update() per simmetria.
-        // ------------------------------------------------------------------
-        $selectedGroups = $post['groups'] ?? [];
-        foreach ($selectedGroups as $group) {
-            try {
-                $newUser->addGroup($group);
-            } catch (DatabaseException $e) {
-                log_message('error', "Errore nell'aggiungere utente al gruppo $group: " . $e->getMessage());
-            }
-        }
+        $users->save($user);
+        $id = $users->getInsertID();
+        return redirect()->route('users_show', [$id])->with('success', 'Utente creato correttamente');
 
-        // ------------------------------------------------------------------
-        // Passo 7 — Assegnazione permessi utente-level.
-        // I permessi individuali vivono in `auth_permissions_users`.
-        // addPermission() di Shield gestisce l'inserimento; su un nuovo utente
-        // non serve la delete preventiva perché non ha permessi preesistenti.
-        // ------------------------------------------------------------------
-        $selectedPermissions = $post['permissions'] ?? [];
-        foreach ($selectedPermissions as $permission) {
-            try {
-                $newUser->addPermission($permission);
-            } catch (DatabaseException $e) {
-                log_message('error', "Errore nell'aggiungere permesso $permission all'utente: " . $e->getMessage());
-            }
-        }
-
-        return redirect()->to(route_to('users_index'))->with('success', 'Utente creato con successo.');
     }
+        
+
+       
+
+        
+    //     $newUser = $users->find($users->getInsertID());       
+
+    //     $selectedGroups = $post['groups'] ?? [];
+    //     foreach ($selectedGroups as $group) {
+    //         try {
+    //             $newUser->addGroup($group);
+    //         } catch (DatabaseException $e) {
+    //             log_message('error', "Errore nell'aggiungere utente al gruppo $group: " . $e->getMessage());
+    //         }
+    //     }
+
+
+    //     $selectedPermissions = $post['permissions'] ?? [];
+    //     foreach ($selectedPermissions as $permission) {
+    //         try {
+    //             $newUser->addPermission($permission);
+    //         } catch (DatabaseException $e) {
+    //             log_message('error', "Errore nell'aggiungere permesso $permission all'utente: " . $e->getMessage());
+    //         }
+    //     }
+
+    //     return redirect()->to(route_to('users_index'))->with('success', 'Utente creato con successo.');
+    // }
 
     // /**
     // * update() — salva le modifiche a un utente esistente (PUT /utenti/:id).
@@ -351,4 +317,45 @@ class UsersController extends BaseController
     // //     return redirect()->to(url_to('users_index'))
     // //         ->with('success', 'Utente approvato con successo.');
     // // }
+    private function getValidationRules(?int $id): array {
+        $isUpdate = $id !== null;
+
+        $CommonRules = [
+            'username' => [
+                'label' => 'Username',
+                'rules' => 'required|min_length[3]|max_length[30]|is_unique[users.username]',
+            ],
+            'email' => [
+                'label' => 'Email',
+                'rules' => 'required|valid_email',
+            ],
+        ];
+        $PasswordRules = [];
+        if ($isUpdate) {
+            $PasswordRules = [
+                'password' => [
+                    'label' => 'Password',
+                    'rules' => 'permit_empty|min_length[8]|strong_password',
+                ],
+                'password_conf' => [
+                    'label' => 'Conferma Password',
+                    'rules' => 'permit_empty|matches[password]',
+                ],
+            ];
+        } else {
+            $PasswordRules = [
+                'password' => [
+                    'label' => 'Password',
+                    'rules' => 'required|min_length[8]|strong_password',
+                ],
+                'password_conf' => [
+                    'label' => 'Conferma Password',
+                    'rules' => 'required|matches[password]',
+                ],
+            ];
+        }
+        $rules = array_merge($CommonRules, $PasswordRules);
+        return $rules;
+
+    }
 }
