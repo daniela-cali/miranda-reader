@@ -93,10 +93,7 @@ class UsersController extends BaseController
         $users = auth()->getProvider();
         $post  = $this->request->getPost();
         //dd($post);
-        
-
         $user = $users->findById($id);
-
         if ($user === null) {
            return redirect()->route('users_index')->with('error', 'Utente con id ' . $id . ' non trovato');
         }
@@ -104,22 +101,27 @@ class UsersController extends BaseController
         // Validazione con rules nel controller
         $rules = $this->getValidationRules($id);
         if (!$this->validate($rules)){
+            //dd($this->validator->getErrors());
             return redirect()->back()
-                ->withInput() //Ripopola i campi input con old()
-                ->with('errors', $users->errors()); 
+            ->withInput() //Ripopola i campi input con old()
+            ->with('errors', $this->validator->getErrors()); 
         }
+
         $data = [
             'username' => $post['username'],
             'email' => $post['email'],
             'ejabberd_nick' => $post['ejabberd_nick'],
             'password' => $post['password'],
         ];
+
         // Validazione OK posso aggiornare l'utente
         $user->fill($data);
-        //dd($user);
+        $groups = is_array($post['groups'])? $post['groups'] : [$post['groups']];
+        $user->syncGroups(...$groups); //spread operator li passa come argomenti singoli!
+        //dd($user->getGroups());
 
         $users->save($user);
-        return redirect()->route('users_show', [$id])->with('success', 'Utente aggiornato correttamente');
+        return redirect()->route('users_index')->with('success', 'Utente aggiornato correttamente');
     }
     // public function edit($id)
     // {
@@ -152,19 +154,20 @@ class UsersController extends BaseController
     // }
 
     /**
-     * store() — crea un nuovo utente da backoffice (POST /utenti/).
+     * store() — crea un nuovo utente (POST /utenti/).
      */
     public function store()
     {
         $users = auth()->getProvider();
-        $data  = $this->request->getPost();
+        $post  = $this->request->getPost();
+        //dd($post);
 
         // Validazione con rules nel controller
         $rules = $this->getValidationRules(null);
         if (!$this->validate($rules)){
             return redirect()->back()
                 ->withInput() //Ripopola i campi input con old()
-                ->with('errors', $users->errors()); 
+                ->with('errors', $this->validator->getErrors()); 
         }
 
         // Validazione OK posso creare l'utente
@@ -318,91 +321,70 @@ class UsersController extends BaseController
     // //     return view('admin/users/changePassword');
     // // }
 
-    // // public function approva($id)
-    // // {
-    // //     $users      = auth()->getProvider();
-    // //     $user       = $users->withGroups()->withPermissions()->find($id);
-    // //     if (!$user) {
-    // //         return redirect()->to(url_to('users_index'))->with('error', 'Utente non trovato.');
-    // //     }
+    
+    // private function getValidationRules(?int $id): array {
+    //     $isUpdate = $id !== null;
 
-    // //     if (!in_array('pending', $user->getGroups())) {
-    // //         return redirect()->to(url_to('users_index'))
-    // //             ->with('error', 'L\'utente non è in stato pending.');
-    // //     }
+    //     $CommonRules = [
+    //         'username' => [
+    //             'label' => 'Username',
+    //             'rules' => 'required|min_length[3]|max_length[30]|is_unique[users.username]',
+    //         ],
+    //         'email' => [
+    //             'label' => 'Email',
+    //             'rules' => 'required|valid_email',
+    //         ],
+    //     ];
+    //     $PasswordRules = [];
+    //     if ($isUpdate) {
+    //         $PasswordRules = [
+    //             'password' => [
+    //                 'label' => 'Password',
+    //                 'rules' => 'permit_empty|min_length[8]|strong_password',
+    //             ],
+    //             'password_conf' => [
+    //                 'label' => 'Conferma Password',
+    //                 'rules' => 'permit_empty|matches[password]',
+    //             ],
+    //         ];
+    //     } else {
+    //         $PasswordRules = [
+    //             'password' => [
+    //                 'label' => 'Password',
+    //                 'rules' => 'required|min_length[8]|strong_password',
+    //             ],
+    //             'password_conf' => [
+    //                 'label' => 'Conferma Password',
+    //                 'rules' => 'required|matches[password]',
+    //             ],
+    //         ];
+    //     }
+    //     $rules = array_merge($CommonRules, $PasswordRules);
+    //     return $rules;
 
-    // //     try {
-    // //         $user->removeGroup('pending');
-    // //         $user->addGroup('user');
+    // }
 
-    // //         // ==== Invio email di notifica approvazione ====
-    // //         $admin = setting('SiteConfig.adminEmail');
-    // //         $email = \Config\Services::email();
-    // //         $email->setFrom($admin, 'MeTe Licenze Admin');
-    // //         $email->setTo($user->email);
-    // //         $email->setSubject('Account Approvato');
-    // //         $content = "
-    // //             <p>Ciao <strong>" . esc($user->username) . "</strong>,</p>
-    // //             <p>Il tuo account è stato approvato. Ora puoi effettuare il login.</p>
-    // //             <p><a href='" . setting('SiteConfig.siteURL') . "/login' class='button'>Accedi al gestionale</a></p>
-    // //         ";
-    // //         $message = view('emails/layout', [
-    // //             'title'   => 'Account approvato su MeTe Licenze',
-    // //             'content' => $content,
-    // //         ]);
-    // //         $email->setMessage($message);
-    // //         $email->setMailType('html');
-    // //         if (!$email->send()) {
-    // //             log_message('error', "Errore nell'invio della mail di approvazione a {$user->email}: " . $email->printDebugger(['headers', 'subject', 'body']));
-    // //         }
-    // //     } catch (DatabaseException $e) {
-    // //         log_message('error', "Errore nell'approvare utente $id: " . $e->getMessage());
-    // //         return redirect()->to(url_to('users_index'))
-    // //             ->with('error', 'Errore nell\'approvazione utente.');
-    // //     }
-
-    // //     return redirect()->to(url_to('users_index'))
-    // //         ->with('success', 'Utente approvato con successo.');
-    // // }
-    private function getValidationRules(?int $id): array {
-        $isUpdate = $id !== null;
-
-        $CommonRules = [
-            'username' => [
-                'label' => 'Username',
-                'rules' => 'required|min_length[3]|max_length[30]|is_unique[users.username]',
-            ],
-            'email' => [
-                'label' => 'Email',
-                'rules' => 'required|valid_email',
-            ],
-        ];
-        $PasswordRules = [];
-        if ($isUpdate) {
-            $PasswordRules = [
-                'password' => [
-                    'label' => 'Password',
-                    'rules' => 'permit_empty|min_length[8]|strong_password',
-                ],
-                'password_conf' => [
-                    'label' => 'Conferma Password',
-                    'rules' => 'permit_empty|matches[password]',
-                ],
-            ];
-        } else {
-            $PasswordRules = [
-                'password' => [
-                    'label' => 'Password',
-                    'rules' => 'required|min_length[8]|strong_password',
-                ],
-                'password_conf' => [
-                    'label' => 'Conferma Password',
-                    'rules' => 'required|matches[password]',
-                ],
-            ];
-        }
-        $rules = array_merge($CommonRules, $PasswordRules);
-        return $rules;
-
+    //$id serve per differenziare le regole di validazione tra create e update
+    private function getValidationRules(?int $id): array 
+    { 
+    if ($id === null) {
+        // Create
+        $usernameRule = 'required|min_length[3]|max_length[30]|is_unique[users.username]';
+        $passwordRule = 'required|min_length[8]|strong_password';
+        $confRule     = 'required|matches[password]';
+    } else {
+        // Update: ignora la riga con questo id
+        $usernameRule = 'required|min_length[3]|max_length[30]|is_unique[users.username,id,' . $id . ']';
+        $passwordRule = 'permit_empty|min_length[8]|strong_password';
+        $confRule     = 'permit_empty|matches[password]';
     }
+
+    return [
+        'username'      => ['label' => 'Username',          'rules' => $usernameRule],
+        'email'         => ['label' => 'Email',             'rules' => 'required|valid_email'],
+        'password'      => ['label' => 'Password',          'rules' => $passwordRule],
+        'password_conf' => ['label' => 'Conferma Password', 'rules' => $confRule],
+    ];
+}
+
 }

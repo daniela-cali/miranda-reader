@@ -41,8 +41,9 @@
 			</button>
 			<input class="form-control form-control-dark w-100" type="text" placeholder="Cerca" aria-label="Cerca">
 			<div class="navbar-nav">
-				<div class="nav-item text-nowrap">
-					<?php if (auth()->loggedIn()): ?>
+				<div class="nav-item text-nowrap d-flex gap-3">
+					<?php if (auth()->loggedIn()): ?>					
+						<a class="nav-link px-3" href="<?= route_to('users_show', auth()->user()->id) ?>"><i class="bi bi-person-circle"></i></a>
 						<a class="nav-link px-3" href="<?= site_url('logout') ?>">Logout</a>
 					<?php else: ?>
 						<a class="nav-link px-3" href="<?= site_url('login') ?>">Login</a>

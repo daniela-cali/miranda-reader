@@ -42,6 +42,7 @@
 			</div>
 
 			<!-- Miranda Username -->
+			<?php if(!$user->inGroup('superadmin')): ?>
 			<div class="row hf-row align-items-center">
 				<label for="miranda" class="col-sm-3 col-form-label">
 					Miranda Username
@@ -52,6 +53,7 @@
 					</div>
 				</div>
 			</div>
+			<?php endif ?>
 
 		</div><!-- /form-body -->
 
@@ -75,7 +77,7 @@
 								type="checkbox"
 								disabled
 								<?= $user->inGroup($group) ? 'checked' : '' ?> />
-							<?= esc($groupDetails["title"])  ?> 
+								<?= esc($groupDetails["title"])  ?> 
 						</label>
 					<?php endforeach ?>
 					

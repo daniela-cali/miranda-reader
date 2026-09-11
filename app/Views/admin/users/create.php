@@ -66,6 +66,7 @@
 							id="ejabberd_nick"
 							name="ejabberd_nick"
 							>
+							<option value = "null"> Seleziona nickname</option>
 							<?php foreach($ejabberdUsers as $ejuser):?>
 								<option value="<?= $ejuser->username ?>"> <?= $ejuser->username ?></option>
 							<?php endforeach ?>
@@ -125,6 +126,8 @@
 
 								<label class="list-group-item">
 									<input class="form-check-input me-1"
+										value="<?= $group ?>"
+										name="groups[]"
 										type="checkbox" />
 									<?= esc($groupDetails["title"])  ?>
 								</label>

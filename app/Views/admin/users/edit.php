@@ -55,29 +55,30 @@
 						<div class="invalid-feedback">Inserisci un indirizzo email valido.</div>
 					</div>
 				</div>
+				<?php if(!$user->inGroup('superadmin')): ?>
+					<!-- Miranda Username solo per i non superadmin-->
+					<div class="row hf-row align-items-center">
+						<label for="ejabberd_nick" class="col-sm-3 col-form-label">
+							Miranda Username
+							<span class="label-hint"></span>
+						</label>
+						<div class="col-sm-9">
+							<select 
+								class="form-select" 
+								id="ejabberd_nick"
+								name="ejabberd_nick"
+								>
 
-				<!-- Miranda Username -->
-				<div class="row hf-row align-items-center">
-					<label for="ejabberd_nick" class="col-sm-3 col-form-label">
-						Miranda Username
-						<span class="label-hint"></span>
-					</label>
-					<div class="col-sm-9">
-						<select 
-							class="form-select" 
-							id="ejabberd_nick"
-							name="ejabberd_nick"
-							>
-							<?php foreach($ejabberdUsers as $ejuser):?>
-								<option value="<?= $ejuser->username ?>"
-								<?= $user->ejabberd_nick == $ejuser->username ? 'selected': '' ?>
-								> 
-								<?= $ejuser->username ?>
-							</option>
-							<?php endforeach ?>
-						</select>
+								<?php foreach($ejabberdUsers as $ejuser):?>
+									<option value="<?= $ejuser->username?>"
+										<?= $user->ejabberd_nick === $ejuser->username ? 'selected': ''?>> 
+									<?=  $ejuser->username ?>
+									</option>
+								<?php endforeach ?>
+							</select>
+						</div>
 					</div>
-				</div>
+				<?php endif ?>
 				<!-- Password -->
 				<div class="row hf-row align-items-center">
 					<label for="password" class="col-sm-3 col-form-label">
@@ -125,17 +126,21 @@
 					<!-- Gruppi -->
 					<div class="row hf-row align-items-start">
 						<div class="list-group">
-							<?php foreach ($allGroups as $group => $groupDetails): ?>
+							<?php foreach ($allGroups as $group =>$groupDetails): ?>
 
 								<label class="list-group-item">
 									<input class="form-check-input me-1"
-										type="checkbox" />
-									<?= esc($groupDetails["title"])  ?>
+										type="checkbox"
+										name="groups[]"
+										value="<?= $group ?>"
+										<?= $user->inGroup($group) ? 'checked' : '' ?> />
+										<?= esc($groupDetails["title"])  ?> 
 								</label>
 							<?php endforeach ?>
 
 						</div>
 					</div>
+
 				</div><!-- /form-body -->
 
 				<!-- ─── Footer ─── -->

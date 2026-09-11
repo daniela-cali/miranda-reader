@@ -17,6 +17,7 @@
                 <th>ID</th>
                 <th>Username</th>
                 <th>Email</th>
+                <th>Miranda Username</th>
                 <th>Creato il</th>
                 <th class="notexport">Azioni</th>
             </tr>
@@ -27,6 +28,7 @@
                     <td><?= esc($utente->id) ?></td>
                     <td><?= esc($utente->username) ?></td>
                     <td><?= esc($utente->email) ?></td>
+                    <td><?= esc($utente->ejabberd_nick) ?? 'Nessun nickname associato' ?></td>
                     <td>
                         <?= $utente->created_at ? $utente->created_at->format('d/m/Y H:i') : '-' ?>
                     </td>
