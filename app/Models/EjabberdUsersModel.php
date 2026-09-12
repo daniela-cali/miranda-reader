@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use CodeIgniter\Model;
+use App\Models\ArchiveModel;
 
 class EjabberdUsersModel extends Model
 {
@@ -10,6 +11,13 @@ class EjabberdUsersModel extends Model
     protected $primaryKey       = 'username';
 
     protected $allowedFields    = [];
-    protected $returnType    = \App\Entities\EjabberdUser::class;
+    protected $returnType    = 'object';
     protected $DBGroup = 'secondary';
+
+    public function getUserContacts(string $username)
+    {
+        $contactsWith = (new ArchiveModel())->getPeersByUsername($username);
+        //dd($contactsWith);
+        return $contactsWith;
+    }
 }

@@ -37,5 +37,10 @@ $routes->group('admin', ['filter' => 'group:superadmin,admin'], function($routes
 
 });
 
+$routes->group('chat', function($routes) {
+    $routes->get('index',  'ChatViewerController::index', ['as' => 'chat_index']);
+    $routes->get('conversation',  'ChatViewerController::conversation', ['as' => 'chat_conversation']);
+});
+
 
 

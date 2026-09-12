@@ -161,11 +161,4 @@
 	</div><!-- /form-card -->
 </div>
 
-<!-- Toast -->
-<div class="toast-wrap">
-	<div class="toast-msg" id="toast">
-		<span class="check">✓</span> Profile updated successfully
-	</div>
-</div>
-
 <?php $this->endSection() ?>
