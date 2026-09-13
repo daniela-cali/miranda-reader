@@ -26,7 +26,8 @@ class ChatViewerController extends BaseController
         $bare_peer = $this->request->getGet('bare_peer');
         $messages = (new ArchiveModel())->getConversation($loggedUsername, $bare_peer);
         $data = [
-            'title' => 'Conversazione con utente: '.$bare_peer,
+            'title' => 'Conversazione con: ' . $bare_peer,
+            'bare_peer' => $bare_peer,
             'messages' => $messages
         ];
         return view('chat/conversation', $data);

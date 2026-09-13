@@ -27,7 +27,7 @@ class ArchiveModel extends Model
     {
         return $this->where('username', $username)
                     ->where('bare_peer', $bare_peer)
-                    ->findAll(50);
+                    ->findAll(30);
     }
     
     

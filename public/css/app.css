@@ -447,7 +447,6 @@ body.guest-mode .app-wrapper {
   }
 
   .btn-ghost {
-    font-family: 'DM Sans', sans-serif;
     font-size: .84rem;
     font-weight: 500;
     color: var(--text-muted);
@@ -468,7 +467,6 @@ body.guest-mode .app-wrapper {
   }
 
   .btn-primary-custom {
-    font-family: 'DM Sans', sans-serif;
     font-size: .84rem;
     font-weight: 500;
     color: #fff;
@@ -496,38 +494,59 @@ body.guest-mode .app-wrapper {
     stroke-linejoin: round;
   }
 
-  /* ── Success toast ── */
-  .toast-wrap {
-    position: fixed;
-    bottom: 1.5rem;
-    right: 1.5rem;
-    z-index: 999;
+  /* Visualizzazione chat */
+  .chat-container {
+    margin: auto;
+    padding-left: 1rem;
+    background-color: #f8f9fa;
+    border-radius: 15px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+    max-height: fit-content;
   }
-  .toast-msg {
-    display: flex;
-    align-items: center;
-    gap: .6rem;
-    background: #1a1916;
-    color: #fff;
-    font-family: 'DM Sans', sans-serif;
-    font-size: .84rem;
-    font-weight: 400;
-    padding: .7rem 1.1rem;
-    border-radius: 8px;
-    box-shadow: 0 4px 20px rgba(0,0,0,.18);
-    opacity: 0;
-    transform: translateY(10px);
-    transition: opacity .25s, transform .25s;
-    pointer-events: none;
+  
+  .chat-box {
+    overflow: auto;
+    display: block;
+    margin-top: 5px;
+    background: #f8f9fa;
   }
-  .toast-msg.show {
-    opacity: 1;
-    transform: translateY(0);
-    pointer-events: auto;
+
+  /* Message Balloon Base */
+  .msg-balloon {
+    display: block;
+    width: fit-content;
+    padding: 0.75rem;
+    max-width: 70%;
+    border-radius: 10px;
+    background: white;
+    color: #222;
+    white-space: normal;
+    box-shadow: 0 1px 2px rgba(0,0,0,.15);
   }
-  .toast-msg .check {
-    color: #4ade80;
-    font-size: 1rem;
+
+  /* Incoming (Left) styling */
+  .msg-incoming.msg-balloon {
+    background: #d9fdd3;
+    margin-left: auto;
+    margin-right: 0;
+  }
+
+  /* Outgoing (Right) styling */
+  .msg-outgoing.msg-balloon {
+    background: white;
+    margin-left: 0;
+    margin-right: auto;
+  }
+  .msg-from {
+    font-size: 0.75rem;
+    display: block;
+    opacity: 0.7;
+  }
+  .msg-time {
+    font-size: 0.50rem;
+    font-style: italic;
+    display: block;
+    opacity: 0.7;
   }
 
   /* ── Responsive ── */
