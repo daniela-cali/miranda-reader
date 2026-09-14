@@ -17,7 +17,6 @@ class EjabberdUsersModel extends Model
     public function getUserContacts(string $username)
     {
         $contactsWith = (new ArchiveModel())->getPeersByUsername($username);
-        //dd($contactsWith);
         return $contactsWith;
     }
 }

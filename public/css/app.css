@@ -494,20 +494,26 @@ body.guest-mode .app-wrapper {
     stroke-linejoin: round;
   }
 
-  /* Visualizzazione chat */
+  /* Visualizzazione chat e sidebar history */
+
+  .history-dates {
+    background: #f8f9fa;
+    border-top-left-radius: 10px;
+    border-bottom-left-radius: 10px;
+    border-right: #a1a1a331 0.5px solid; 
+  }
+
   .chat-container {
     margin: auto;
-    padding-left: 1rem;
     background-color: #f8f9fa;
-    border-radius: 15px;
-    box-shadow: 0 4px 15px rgba(0,0,0,0.05);
-    max-height: fit-content;
+    border-top-right-radius: 10px;
+    border-bottom-right-radius: 10px;
   }
   
   .chat-box {
     overflow: auto;
     display: block;
-    margin-top: 5px;
+    margin-left: 0%;
     background: #f8f9fa;
   }
 
