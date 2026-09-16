@@ -49,11 +49,13 @@
                             </li>
                             <li><hr class="dropdown-divider"></li>
                             <li>
-                                <a class="dropdown-item text-danger"
-                                    href="<?= url_to('users_delete', $utente->id) ?>"
-                                    onclick="return confirm('Eliminare questo utente?')">
-                                    <i class="bi bi-trash"></i> Elimina
-                                </a>
+                                <form action="<?= url_to('users_delete', $utente->id) ?>" method="post"
+                                      onsubmit="return confirm('Eliminare questo utente?')">
+                                    <input type="hidden" name="_method" value="DELETE">
+                                    <button type="submit" class="dropdown-item text-danger">
+                                        <i class="bi bi-trash"></i> Elimina
+                                    </button>
+                                </form>
                             </li>
                         </ul>
                     </td>

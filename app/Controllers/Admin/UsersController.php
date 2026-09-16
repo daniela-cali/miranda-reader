@@ -160,7 +160,6 @@ class UsersController extends BaseController
     {
         $users = auth()->getProvider();
         $post  = $this->request->getPost();
-        //dd($post);
 
         // Validazione con rules nel controller
         $rules = $this->getValidationRules(null);
@@ -180,7 +179,12 @@ class UsersController extends BaseController
         ]);
 
         $users->save($user);
+
         $id = $users->getInsertID();
+        $user = $users->find($id);
+        $groups = is_array($post['groups'])? $post['groups'] : [$post['groups']];
+        $user->syncGroups(...$groups); //spread operator li passa come argomenti singoli!
+        
         return redirect()->route('users_show', [$id])->with('success', 'Utente creato correttamente');
     }
         
@@ -265,25 +269,25 @@ class UsersController extends BaseController
     // //     )->with('success', 'Utente aggiornato con successo.');
     // // }
 
-    // // public function delete($id)
-    // // {
-    // //     $users = auth()->getProvider();
-    // //     $user  = $users->find($id);
+    public function delete($id)
+    {
+        $users = auth()->getProvider();
+        $user  = $users->find($id);
 
-    // //     if (!$user) {
-    // //         return redirect()->to(url_to('users_index'))->with('error', 'Utente non trovato.');
-    // //     }
+        if (!$user) {
+            return redirect()->to(url_to('users_index'))->with('error', 'Utente non trovato.');
+        }
 
-    // //     try {
-    // //         $users->delete($id);
-    // //     } catch (DatabaseException) {
-    // //         return redirect()->to(url_to('users_index'))
-    // //             ->with('error', 'Errore nell\'eliminazione utente.');
-    // //     }
+        try {
+            $users->delete($id);
+        } catch (DatabaseException) {
+            return redirect()->to(url_to('users_index'))
+                ->with('error', 'Errore nell\'eliminazione utente.');
+        }
 
-    // //     return redirect()->to(url_to('users_index'))
-    // //         ->with('success', 'Utente eliminato con successo.');
-    // // }
+        return redirect()->to(url_to('users_index'))
+            ->with('success', 'Utente eliminato con successo.');
+    }
 
     // // public function changePassword()
     // // {
